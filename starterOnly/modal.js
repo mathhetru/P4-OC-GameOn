@@ -1,9 +1,10 @@
+// Nav responsive
 function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
+  var nav = document.getElementById("myTopnav");
+  if (nav.className === "topnav") {
+    nav.className += " responsive";
   } else {
-    x.className = "topnav";
+    nav.className = "topnav";
   }
 }
 
@@ -13,23 +14,25 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 
 
-// launch modal event
+// Clic "je m'inscris"
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal form
+// Lancement formulaire (changement du display en block)
 function launchModal() {
   modalbg.style.display = "block";
 }
 
-/* launch thank event
-thankBtn.forEach((btn) => btn.addEventListener("click", launchThank));
-function launchThank() {
-  thankBg.style.display = "block";
-}*/
+// Function Message erreur
+function showErrorMessage(champForm, formRempli, message) {
+	champForm.target.setCustomValidity("");
+	if (!champForm.target.validity.valid && champForm.target.value.length == 0) {
+			champForm.target.setCustomValidity(message);
+	}
+};
 
-document.getElementById("inscription").addEventListener("click", function(f) {
+// Messages d'erreurs par champs pour le formulaire
+document.getElementById("inscription").addEventListener("click", function(formRempli) {
 
-	let erreur;
 	let firstName = document.getElementById("first");
 	let lastName = document.getElementById("last");
 	let emailValid = document.getElementById("email");
@@ -39,72 +42,48 @@ document.getElementById("inscription").addEventListener("click", function(f) {
 
 	const thankBtn = document.querySelectorAll(".thank-btn");
 	const thankBg = document.querySelector(".bground-thank");
-
+	
 	if (!firstName.value) {
-		firstName.oninvalid = function(e) {
-			e.target.setCustomValidity("");
-			if (!e.target.validity.valid) {
-				if (e.target.value.length == 0) {
-					f.preventDefault();
-					e.target.setCustomValidity("Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
-				}
-			}
-		};		
+		firstName.oninvalid = function(champForm) {
+			showErrorMessage(champForm, formRempli, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.")
+		};	
+		return false;	
 	}
 	if (!lastName.value) {
-		lastName.oninvalid = function(e) {
-			e.target.setCustomValidity("");
-			if (!e.target.validity.valid) {
-				if (e.target.value.length == 0) {
-					f.preventDefault();
-					e.target.setCustomValidity("Veuillez entrer 2 caractères ou plus pour le champ du nom.");
-				}
-			}
+		lastName.oninvalid = function(champForm) {
+			showErrorMessage(champForm, formRempli, "Veuillez entrer 2 caractères ou plus pour le champ du nom.")
 		};
+		return false;	
 	} 
 	if (!emailValid.value) {
-		emailValid.oninvalid = function(e) {
-			e.target.setCustomValidity("");
-			if (!e.target.validity.valid) {
-				if (e.target.value.length == 0) {
-					f.preventDefault();
-					e.target.setCustomValidity("Entrez une adresse valide. Exemple : contact@nom.com");
-				}
-			}
+		emailValid.oninvalid = function(champForm) {
+			showErrorMessage(champForm, formRempli, "Entrez une adresse valide. Exemple : contact@nom.com")
 		};
+		return false;	
 	}
 	if (!birthValid.value) {
-		birthValid.oninvalid = function(e) {
-			e.target.setCustomValidity("");
-			if (!e.target.validity.valid) {
-				if (e.target.value.length == 0) {
-					f.preventDefault();
-					e.target.setCustomValidity("Vous devez entrer votre date de naissance.");
-				}
-			}
+		birthValid.oninvalid = function(champForm) {
+			showErrorMessage(champForm, formRempli, "Vous devez entrer votre date de naissance.")
 		};
+		return false;	
 	}
 	if (!quantityCity.value) {
-		quantityCity.oninvalid = function(e) {
-			e.target.setCustomValidity("");
-			if (!e.target.validity.valid) {
-				if (e.target.value.length == 0) {
-					f.preventDefault();
-					e.target.setCustomValidity("Vous devez renseigner ce champ.");
-				}
-			}
+		quantityCity.oninvalid = function(champForm) {
+			showErrorMessage(champForm, formRempli, "Vous devez renseigner ce champ.")
 		};
+		return false;	
 	}
 	if (!checkBox.value) {
-		checkBox.oninvalid = function(e) {
-			e.target.setCustomValidity("");
-			if (!e.target.validity.valid) {
-				if (e.target.value.length == 0) {
-					f.preventDefault();
-					e.target.setCustomValidity("Vous devez accepter les conditions.");
+		checkBox.oninvalid = function(champForm, formRempli, message) {
+				champForm.target.setCustomValidity("");
+				if (!champForm.checked) {
+						return true;
 				}
-			}
-		};
+				else {
+					champForm.target.setCustomValidity("Vous devez renseigner ce champ.");
+				}
+			};
+		return false;	
 	}
 	else {
 		thankBtn.forEach((btn) => btn.addEventListener("click", launchThank));
@@ -114,79 +93,3 @@ document.getElementById("inscription").addEventListener("click", function(f) {
 		}
 	}
 	);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-// FORMULAIRE
-
-//validation du prénom
-const firstName = document.getElementById("first");
-firstName.oninvalid = function(e) {
-	e.target.setCustomValidity("");
-	if (!e.target.validity.valid) {
-		if (e.target.value.length == 0) {
-e.target.setCustomValidity("Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
-		}
-	}
-};
-
-//validation du nom
-const lastName = document.getElementById("last");
-lastName.oninvalid = function(e) {
-	e.target.setCustomValidity("");
-	if (!e.target.validity.valid) {
-		if (e.target.value.length == 0) {
-e.target.setCustomValidity("Ce champ est obligatoire");
-		} else {
-e.target.setCustomValidity("Veuillez entrer 2 caractères ou plus pour le champ du nom.");
-		}
-	}
-};
-
-// validation email 
-const emailValid = document.getElementById("email");
-emailValid.oninvalid = function(e) {
-	e.target.setCustomValidity("");
-	if (!e.target.validity.valid) {
-		if (e.target.value.length == 0) {
-e.target.setCustomValidity("Ce champ est obligatoire");
-		} else {
-e.target.setCustomValidity("Entrez une adresse valide. Exemple : contact@nom.com");
-		}
-	}
-};
-
-// validation date de naissance
-const birthValid = document.getElementById("birthdate");
-birthValid.oninvalid = function(e) {
-	e.target.setCustomValidity("");
-	if (!e.target.validity.valid) {
-		if (e.target.value.length == 0) {
-e.target.setCustomValidity("Ce champ est obligatoire");
-		} else {
-e.target.setCustomValidity("Vous devez entrer votre date de naissance.");
-		}
-	}
-};
-
-// empecher le comportement par défaut = rechargement de la page
-const inscription = document.getElementById("inscription");
-inscription.addEventListener("click", function e(){
-	e.preventDefault();
-});*/
-
-
